@@ -1,8 +1,22 @@
 param(
+    [switch]$All,
     [string]$GameName,
     [switch]$Check,
+    [switch]$Help,
     [string]$DatabasePath = ".\db.json"
 )
+
+if ($Help) {
+    Write-Host "Usage: sgl.ps1 [-All] [-Check] [-GameName <name>] [-Help] [-DatabasePath <path>]"
+    Write-Host ""
+    Write-Host "  (no args)      List all game names"
+    Write-Host "  -All           Process all games"
+    Write-Host "  -GameName <n>  Process a specific game"
+    Write-Host "  -Check         Check only, no changes (implies -All)"
+    Write-Host "  -Help          Show this help"
+    Write-Host "  -DatabasePath  Path to database file (default: .\db.json)"
+    exit 0
+}
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (-not [System.IO.Path]::IsPathRooted($DatabasePath)) {
@@ -42,20 +56,20 @@ function New-Symlink {
         if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
             $actualTarget = [System.IO.Path]::GetFullPath($item.Target)
             if ($actualTarget -eq $target) {
-                Write-Host " - [$Label=OK]" -ForegroundColor Green
+                Write-Host " - $Label = OK" -ForegroundColor Green
                 return
             }
-            Write-Host " - [$Label=WRONG TARGET]" -ForegroundColor Red
+            Write-Host " - $Label = WRONG TARGET" -ForegroundColor Red
             if ($Check) { return }
             Remove-Item $link -Force
         } else {
-            Write-Host " - [$Label=NOT A LINK]" -ForegroundColor Yellow
+            Write-Host " - $Label = NOT A LINK" -ForegroundColor Yellow
             if ($Check) { return }
             $backup = "$link.bak"
             Move-Item $link $backup -Force
         }
     } else {
-        Write-Host " - [$Label=MISSING]" -ForegroundColor Red
+        Write-Host " - $Label = MISSING" -ForegroundColor Red
         if ($Check) { return }
     }
 
@@ -63,17 +77,22 @@ function New-Symlink {
         try {
             New-Item -ItemType Directory -Path $target -Force -ErrorAction Stop | Out-Null
         } catch {
-            Write-Host " - [$Label=FAILED](create origin)" -ForegroundColor Red
+            Write-Host " - $Label = FAILED(create origin)" -ForegroundColor Red
             return
         }
     }
 
     try {
         New-Item -ItemType Junction -Path $link -Target $target -ErrorAction Stop | Out-Null
-        Write-Host " - [$Label=CREATED]" -ForegroundColor Green
+        Write-Host " - $Label = CREATED" -ForegroundColor Green
     } catch {
-        Write-Host " - [$Label=FAILED](create link)" -ForegroundColor Red
+        Write-Host " - $Label = FAILED(create link)" -ForegroundColor Red
     }
+}
+
+if (-not $All -and -not $Check -and -not $GameName) {
+    foreach ($g in $db.games) { Write-Host "$($g.name)" }
+    exit 0
 }
 
 if ($GameName) {
@@ -84,7 +103,7 @@ if ($GameName) {
 }
 
 foreach ($game in $games) {
-    Write-Host "$($game.name):" -ForegroundColor Magenta
+    Write-Host "$($game.name)" -ForegroundColor Magenta
 
     if ($game.paths) {
         foreach ($entry in $game.paths.PSObject.Properties) {
