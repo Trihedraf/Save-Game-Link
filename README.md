@@ -28,7 +28,7 @@ This lets you keep the your saves in a synced folder or on a portable drive. The
 
 ## GOGGAMES environment variable
 
-Some GOG games store saves in their install folder. If your install isn't in the default location, use `env-gog.ps1` to set the `GOGGAMES` user environment variable so games can find themselves.
+Some GOG games store saves in their install folder. If your install isn't in the default location, use `env-gog.ps1` to set the `GOGGAMES` user environment variable so the script can link to the games folder.
 
 ```
 env-gog.ps1 -Check              Show the environment variable current value
