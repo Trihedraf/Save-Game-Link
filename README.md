@@ -1,6 +1,6 @@
 # Save Game Link
 
-Portable save file manager using NTFS junctions. Keep your game saves in a synced/movable folder and link them back to where games expect them.
+Link game saves using NTFS junctions for easy portability and backups. Keep your game saves in a synced/movable folder and link them back to where games expect them.
 
 ## Usage
 

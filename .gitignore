@@ -1,3 +1,4 @@
 data/*
 !data/.gitkeep
 db.json
+/.stfolder/
