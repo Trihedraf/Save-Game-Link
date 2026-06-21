@@ -20,9 +20,10 @@
         {
             "name": "Example Game 2",
             "paths": {
-                "Saves": {
-                    "origin": "data\\Example Game 2\\Saves",
-                    "link": "$env:USERPROFILE\\Saved Games\\Example2"
+                "Config": {
+                    "origin": "data\\Example Game 2\\config.xml",
+                    "link": "$env:APPDATA\\Example2\\config.xml",
+                    "type": "file"
                 }
             }
         }

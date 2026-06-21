@@ -45,11 +45,13 @@ function New-Symlink {
     param(
         [string]$LinkPath,
         [string]$TargetPath,
-        [string]$Label
+        [string]$Label,
+        [string]$Type = "dir"
     )
 
     $target = Resolve-AbsolutePath $TargetPath
     $link = Resolve-AbsolutePath $LinkPath
+    $isFile = $Type -eq "file"
 
     if (Test-Path $link) {
         $item = Get-Item $link -Force
@@ -73,7 +75,7 @@ function New-Symlink {
         if ($Check) { return }
     }
 
-    if (-not (Test-Path $target)) {
+    if (-not $isFile -and -not (Test-Path $target)) {
         try {
             New-Item -ItemType Directory -Path $target -Force -ErrorAction Stop | Out-Null
         } catch {
@@ -83,7 +85,8 @@ function New-Symlink {
     }
 
     try {
-        New-Item -ItemType Junction -Path $link -Target $target -ErrorAction Stop | Out-Null
+        $type = if ($isFile) { 'SymbolicLink' } else { 'Junction' }
+        New-Item -ItemType $type -Path $link -Target $target -ErrorAction Stop | Out-Null
         Write-Host " - $Label = CREATED" -ForegroundColor Green
     } catch {
         Write-Host " - $Label = FAILED(create link)" -ForegroundColor Red
@@ -107,7 +110,7 @@ foreach ($game in $games) {
 
     if ($game.paths) {
         foreach ($entry in $game.paths.PSObject.Properties) {
-            New-Symlink -LinkPath $entry.Value.link -TargetPath $entry.Value.origin -Label $entry.Name
+            New-Symlink -LinkPath $entry.Value.link -TargetPath $entry.Value.origin -Label $entry.Name -Type $entry.Value.type
         }
     }
 }

@@ -40,3 +40,5 @@ env-gog.ps1 -Help              Show help
 ## Adding a game
 
 Start from `db.json.example` and edit to your needs. Copy entries from the [wiki](https://github.com/Trihedraf/Save-Game-Link/wiki) or create your own.
+
+Each path entry can optionally include `"type": "file"` if the target is a single file instead of a directory. Defaults to `"dir"` (directory junction) when omitted.
