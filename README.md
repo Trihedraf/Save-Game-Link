@@ -2,6 +2,13 @@
 
 Link game saves using NTFS junctions for easy portability and backups. Keep your game saves in a synced/movable folder and link them back to where games expect them.
 
+## Setup
+
+```
+git clone https://github.com/Trihedraf/Save-Game-Link.git
+cd Save-Game-Link
+```
+
 ## Usage
 
 ```
