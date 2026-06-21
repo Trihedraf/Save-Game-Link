@@ -26,6 +26,17 @@ Save files live in `data/` under this folder. When you run the script, it create
 
 This lets you keep the your saves in a synced folder or on a portable drive. The junctions can be recreated on any PC running Windows or in a different location by running the script again.
 
+## GOGGAMES environment variable
+
+Some GOG games store saves in their install folder. If your install isn't in the default location, use `env-gog.ps1` to set the `GOGGAMES` user environment variable so games can find themselves.
+
+```
+env-gog.ps1 -Check              Show the environment variable current value
+env-gog.ps1 -Set "C:\GOG Games" Set the environment variable to a path (prompts if path not provided)
+env-gog.ps1 -Remove             Remove the environment variable
+env-gog.ps1 -Help              Show help
+```
+
 ## Adding a game
 
 Start from `db.json.example` and edit to your needs. Copy entries from the [wiki](https://github.com/Trihedraf/Save-Game-Link/wiki) or create your own.
