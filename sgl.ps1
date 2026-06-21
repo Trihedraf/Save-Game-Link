@@ -9,12 +9,12 @@ param(
 if ($Help) {
     Write-Host "Usage: sgl.ps1 [-All] [-Check] [-GameName <name>] [-Help] [-DatabasePath <path>]"
     Write-Host ""
-    Write-Host "  (no args)      List all game names"
-    Write-Host "  -All           Process all games"
-    Write-Host "  -GameName <n>  Process a specific game"
-    Write-Host "  -Check         Check only, no changes (implies -All)"
-    Write-Host "  -Help          Show this help"
-    Write-Host "  -DatabasePath  Path to database file (default: .\db.json)"
+    Write-Host "  (no args)         List all games"
+    Write-Host "  -All              Process all games"
+    Write-Host "  -GameName <name>  Process a specific game"
+    Write-Host "  -Check            Check all (or specific game with -GameName) links without making changes"
+    Write-Host "  -Help             Show help"
+    Write-Host "  -DatabasePath     Path to database file (default: .\db.json)"
     exit 0
 }
 
